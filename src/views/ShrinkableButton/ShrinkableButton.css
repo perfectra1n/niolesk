@@ -1,11 +1,65 @@
+.ShrinkableButton {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-color)) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+    padding: 0.75rem 1.25rem !important;
+    font-weight: 500 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.ShrinkableButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2));
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.ShrinkableButton:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md) !important;
+}
+
+.ShrinkableButton:hover::before {
+    opacity: 1;
+}
+
+.ShrinkableButton:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.ShrinkableButton i.icon {
+    margin-right: 0.5rem !important;
+    transition: transform 0.3s ease;
+}
+
+.ShrinkableButton:hover i.icon {
+    transform: rotate(15deg) scale(1.1);
+}
+
 .ShrinkableTextAlt {
     display: none;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
+    .ShrinkableButton {
+        padding: 0.6rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+    
     .ShrinkableText {
         display: none;
     }
+    
     .ShrinkableTextAlt {
         display: inline;
     }
@@ -13,28 +67,36 @@
 
 @media screen and (max-width: 600px) {
     .ShrinkableButton {
-        width: 4em;
-        white-space: pre;
-        overflow: hidden;
+        padding: 0.5rem 0.75rem !important;
+        min-width: auto !important;
     }
-
+    
     .ShrinkableText {
         display: none;
     }
-
+    
     .ShrinkableTextAlt {
         display: none;
+    }
+    
+    .ShrinkableButton i.icon {
+        margin-right: 0 !important;
     }
 }
 
 @media screen and (max-width: 420px) {
     .ShrinkableButton {
-        width: 2em;
+        padding: 0.4rem !important;
+        border-radius: 50% !important;
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
+    
     .ShrinkableButton i.icon {
-        font-size: 0.75em;
-        position: relative;
-        left: -4px;
-        top: -2px;
+        font-size: 1rem !important;
+        margin: 0 !important;
     }
 }

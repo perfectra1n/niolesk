@@ -36,6 +36,7 @@ class Editor extends React.Component {
     render() {
         const { text, language, onTextChanged, height } = this.props;
         const { shouldUpdate } = this;
+        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
 
         return <div className='Editor'>
             <MonacoEditor
@@ -46,10 +47,19 @@ class Editor extends React.Component {
                 onChange={(text) => onTextChanged(text)}
                 value={shouldUpdate ? text : null}
                 options={{
-                    theme: 'vs',
+                    theme: isDarkMode ? 'vs-dark' : 'vs',
                     automaticLayout: true,
                     folding: true,
                     foldingStrategy: 'indentation',
+                    fontSize: 14,
+                    lineHeight: 22,
+                    padding: { top: 10, bottom: 10 },
+                    minimap: { enabled: true },
+                    scrollBeyondLastLine: false,
+                    wordWrap: 'on',
+                    smoothScrolling: true,
+                    cursorBlinking: 'smooth',
+                    renderLineHighlight: 'all',
                 }}
                 height={`${height}px`}
             />

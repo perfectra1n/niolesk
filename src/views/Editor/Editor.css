@@ -2,39 +2,118 @@
     box-sizing: border-box;
     padding: 0;
     vertical-align: top;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--editor-bg);
+    transition: var(--transition-base);
 }
 
 .MonacoEditor {
-    border: 1px solid;
-    border-color: #dbdbdb;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: border-color 0.3s ease;
 }
+
+.MonacoEditor:hover {
+    border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .monaco-editor,
+[data-theme="dark"] .monaco-editor-background,
+[data-theme="dark"] .monaco-editor .margin {
+    background-color: var(--editor-bg) !important;
+}
+
+[data-theme="dark"] .monaco-editor .view-line span {
+    color: var(--editor-text) !important;
+}
+
+.Editor::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), #4a9eff, var(--primary-color));
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+    opacity: 0.6;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
 .EditorTextArea {
-    font-family: Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     box-sizing: border-box;
     margin: 0;
     height: 700px;
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: auto;
     white-space: pre;
-
     display: block;
-    padding: calc(.75em - 1px);
+    padding: 1rem;
     resize: vertical;
-
     width: 100%;
-
-    line-height: 1.5;
-
-    border: 1px solid;
-    background-color: #fff;
-    border-color: #dbdbdb;
-    color: #363636;
-    border-radius: 5px;
-
+    line-height: 1.6;
+    border: 1px solid var(--border-color);
+    background-color: var(--editor-bg);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
     -moz-appearance: none;
     -webkit-appearance: none;
     align-items: center;
-    
-    font-size: 1rem;
+    font-size: 0.95rem;
     justify-content: flex-start;
+    transition: var(--transition-base);
+}
+
+.EditorTextArea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(33, 133, 208, 0.1);
+}
+
+[data-theme="dark"] .EditorTextArea:focus {
+    box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .Editor {
+        min-height: 250px;
+    }
+    
+    .EditorTextArea {
+        height: 400px;
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .Editor {
+        min-height: 200px;
+    }
+    
+    .Editor::before {
+        height: 2px;
+    }
+    
+    .EditorTextArea {
+        height: 300px;
+        font-size: 0.85rem;
+        padding: 0.5rem;
+    }
 }

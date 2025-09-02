@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'
 import '../fomantic-ui-css/semantic.min.css'
 import { Form, Segment } from 'semantic-ui-react';
@@ -20,6 +20,10 @@ import './App.css'
 import classNames from 'classnames';
 
 const App = ({ onExamples, onImportUrl, onSetZenMode, zenMode, onKey, onResize, analytics }) => {
+    const [darkMode, setDarkMode] = useState(() => {
+        const saved = localStorage.getItem('darkMode');
+        return saved === 'true' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    });
     if (!onExamples) {
         onExamples = () => { };
     }
@@ -32,6 +36,19 @@ const App = ({ onExamples, onImportUrl, onSetZenMode, zenMode, onKey, onResize, 
     const analyticsHtml = hasAnalytics ? (analytics.filter((item) => item.type !== 'js')) : []
     const hasAnalyticsJs = analyticsJs.length > 0
     const hasAnalyticsHtml = analyticsHtml.length > 0
+
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+        localStorage.setItem('darkMode', darkMode);
+    }, [darkMode]);
+
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -100,6 +117,7 @@ const App = ({ onExamples, onImportUrl, onSetZenMode, zenMode, onKey, onResize, 
                                 <DiagramType />
                             </div>
                             <div className='buttonsZone'>
+                                <ShrinkableButton floated='right' onClick={toggleDarkMode} icon={darkMode ? 'sun' : 'moon'} text={darkMode ? 'Light Mode' : 'Dark Mode'} textAlt={darkMode ? 'Light' : 'Dark'} />
                                 <ShrinkableButton floated='right' onClick={() => onSetZenMode()} icon='external alternate' text='Zen Mode' textAlt='Zen' />
                                 <ShrinkableButton floated='right' onClick={() => onImportUrl()} icon='write' text='Import diagram URL' textAlt='URL' />
                                 <ShrinkableButton floated='right' onClick={() => onExamples()} icon='list alternate outline' text='Examples' textAlt='Ex.' />
